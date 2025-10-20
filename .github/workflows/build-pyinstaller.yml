@@ -29,6 +29,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyinstaller
           pip install -e .[full,cloud]
+          pip install pypykatz
 
       - name: Apply pypykatz patch
         run: |
