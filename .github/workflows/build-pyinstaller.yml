@@ -43,9 +43,11 @@ jobs:
 
       - name: Apply pypykatz patch
         run: |
-          $sitePackagesPath = python -c "import site, os; print(site.getsitepackages()[0].replace(os.sep, '/'))"
-          $sitePackagesPath = Join-Path $sitePackagesPath "Lib/site-packages"
-          git apply --directory="$sitePackagesPath" patch/pypykatz-177.patch
+          $sitePackagesPath = python -c "import site, os; print(site.getsitepackages()[0])"
+          cd "$sitePackagesPath"
+          patch -p0 < "${{ github.workspace }}/patch/pypykatz-177.patch"
+          cd ${{ github.workspace }}
+        shell: pwsh
 
       - name: Pyinstall executable
         run: |
