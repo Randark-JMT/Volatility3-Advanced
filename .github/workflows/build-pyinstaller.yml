@@ -33,8 +33,8 @@ jobs:
 
       - name: Apply pypykatz patch
         run: |
-          $pypykatzPath = python -c "import pypykatz; import os; print(os.path.dirname(pypykatz.__file__))"
-          git apply --directory="$pypykatzPath" patch/pypykatz-177.patch
+          $sitePackagesPath = python -c "import site; print(site.getsitepackages()[0])"
+          git apply --directory="$sitePackagesPath" patch/pypykatz-177.patch
 
       - name: Pyinstall executable
         run: |
