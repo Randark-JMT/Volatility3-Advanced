@@ -20,7 +20,7 @@ binaries = []
 try:
     import capstone
 
-    binaries = collect_dynamic_libs('capstone')
+    binaries = collect_dynamic_libs("capstone")
 except ImportError:
     pass
 
@@ -28,25 +28,50 @@ except ImportError:
 # This adds the current working directory, which should usually do the trick
 sys.path.append(os.path.dirname(os.path.abspath(SPEC)))
 
-vol_analysis = Analysis(['vol.py'],
-                        pathex = [],
-                        binaries = binaries,
-                        datas = collect_data_files('volatility3.framework') + \
-                                collect_data_files('volatility3.framework.automagic', include_py_files = True) + \
-                                collect_data_files('volatility3.framework.plugins', include_py_files = True) + \
-                                collect_data_files('volatility3.framework.layers', include_py_files = True) + \
-                                collect_data_files('volatility3.schemas') + \
-                                collect_data_files('volatility3.plugins', include_py_files = True),
-                        hiddenimports = collect_submodules('volatility3.framework.automagic') + \
-                                        collect_submodules('volatility3.framework.plugins') + \
-                                        collect_submodules('volatility3.framework.symbols'),
-                        hookspath = [],
-                        runtime_hooks = [],
-                        excludes = [],
-                        win_no_prefer_redirects = False,
-                        win_private_assemblies = False,
-                        cipher = block_cipher,
-                        noarchive = False)
+vol_analysis = Analysis(
+    ["vol.py"],
+    pathex=[],
+    binaries=binaries,
+    datas=collect_data_files("volatility3.framework")
+    + collect_data_files("volatility3.framework.automagic", include_py_files=True)
+    + collect_data_files("volatility3.framework.plugins", include_py_files=True)
+    + collect_data_files("volatility3.framework.layers", include_py_files=True)
+    + collect_data_files("volatility3.schemas")
+    + collect_data_files("volatility3.plugins", include_py_files=True),
+    hiddenimports=collect_submodules("volatility3.framework.automagic")
+    + collect_submodules("volatility3.framework.plugins")
+    + collect_submodules("volatility3.framework.symbols")
+    + [
+        "cryptography",
+        "cffi",
+        "cryptography.hazmat.backends.openssl",
+        "cryptography.hazmat.bindings._openssl",
+        "unicrypto",
+        "unicrypto.backends.pycryptodome.DES",
+        "unicrypto.backends.pycryptodome.TDES",
+        "unicrypto.backends.pycryptodome.AES",
+        "unicrypto.backends.pycryptodome.RC4",
+        "unicrypto.backends.pure.DES",
+        "unicrypto.backends.pure.TDES",
+        "unicrypto.backends.pure.AES",
+        "unicrypto.backends.pure.RC4",
+        "unicrypto.backends.cryptography.DES",
+        "unicrypto.backends.cryptography.TDES",
+        "unicrypto.backends.cryptography.AES",
+        "unicrypto.backends.cryptography.RC4",
+        "unicrypto.backends.pycryptodomex.DES",
+        "unicrypto.backends.pycryptodomex.TDES",
+        "unicrypto.backends.pycryptodomex.AES",
+        "unicrypto.backends.pycryptodomex.RC4",
+    ],
+    hookspath=[],
+    runtime_hooks=[],
+    excludes=[],
+    win_no_prefer_redirects=False,
+    win_private_assemblies=False,
+    cipher=block_cipher,
+    noarchive=False,
+)
 ######
 # Multipackage spec files are broken in pyinstaller 3.0 (see bug 1527)
 ######
@@ -75,22 +100,23 @@ vol_analysis = Analysis(['vol.py'],
 
 # MERGE((vol_analysis, 'vol', 'vol'), (volshell_analysis, 'volshell', 'volshell'))
 
-vol_pyz = PYZ(vol_analysis.pure, vol_analysis.zipped_data,
-              cipher = block_cipher)
-vol_exe = EXE(vol_pyz,
-              vol_analysis.scripts,
-              vol_analysis.binaries,
-              vol_analysis.zipfiles,
-              vol_analysis.datas,
-              [('u', None, 'OPTION')],
-              name = 'vol',
-              icon = os.path.join('doc', 'source', '_static', 'favicon.ico'),
-              debug = False,
-              bootloader_ignore_signals = False,
-              strip = False,
-              upx = True,
-              runtime_tmpdir = None,
-              console = True)
+vol_pyz = PYZ(vol_analysis.pure, vol_analysis.zipped_data, cipher=block_cipher)
+vol_exe = EXE(
+    vol_pyz,
+    vol_analysis.scripts,
+    vol_analysis.binaries,
+    vol_analysis.zipfiles,
+    vol_analysis.datas,
+    [("u", None, "OPTION")],
+    name="vol",
+    icon=os.path.join("doc", "source", "_static", "favicon.ico"),
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    runtime_tmpdir=None,
+    console=True,
+)
 
 # volshell_pyz = PYZ(volshell_analysis.pure, volshell_analysis.zipped_data,
 #                    cipher = block_cipher)
