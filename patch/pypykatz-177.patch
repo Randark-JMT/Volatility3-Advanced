@@ -7,10 +7,10 @@ Subject: [PATCH] Fix Volatility reader
  .../commons/readers/volatility3/volreader.py  | 29 ++++++++++++-------
  1 file changed, 19 insertions(+), 10 deletions(-)
 
-diff --git a\pypykatz\commons\readers\volatility3\volreader.py b\pypykatz\commons\readers\volatility3\volreader.py
+diff --git a/pypykatz/commons/readers/volatility3/volreader.py b/pypykatz/commons/readers/volatility3/volreader.py
 index 8cdb15f..d8144d6 100644
---- a\pypykatz\commons\readers\volatility3\volreader.py
-+++ b\pypykatz\commons\readers\volatility3\volreader.py
+--- a/pypykatz/commons/readers/volatility3/volreader.py
++++ b/pypykatz/commons/readers/volatility3/volreader.py
 @@ -83,21 +83,30 @@ def get_sysinfo(self):
  		return sysinfo
  
