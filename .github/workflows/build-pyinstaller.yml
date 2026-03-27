@@ -45,7 +45,7 @@ jobs:
         run: |
           $sitePackagesPath = python -c "import site, os; print(site.getsitepackages()[0].replace(os.sep, '/')+'/Lib/site-packages')"
           cd "$sitePackagesPath"
-          Get-Content "${{ github.workspace }}/patch/pypykatz-177.patch" | patch -p1
+          Get-Content "${{ github.workspace }}/patch/pypykatz-177.patch" | patch -p1 -N
           cd ${{ github.workspace }}
         shell: pwsh
 
