@@ -41,13 +41,13 @@ jobs:
         uses: mxschmitt/action-tmate@v3
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
 
-      - name: Apply pypykatz patch
-        run: |
-          $sitePackagesPath = python -c "import site, os; print(site.getsitepackages()[0].replace(os.sep, '/')+'/Lib/site-packages')"
-          cd "$sitePackagesPath"
-          Get-Content "${{ github.workspace }}/patch/pypykatz-177.patch" | patch -p1 -N
-          cd ${{ github.workspace }}
-        shell: pwsh
+      # - name: Apply pypykatz patch
+      #   run: |
+      #     $sitePackagesPath = python -c "import site, os; print(site.getsitepackages()[0].replace(os.sep, '/')+'/Lib/site-packages')"
+      #     cd "$sitePackagesPath"
+      #     Get-Content "${{ github.workspace }}/patch/pypykatz-177.patch" | patch -p1 -N
+      #     cd ${{ github.workspace }}
+      #   shell: pwsh
 
       - name: Pyinstall executable
         run: |
